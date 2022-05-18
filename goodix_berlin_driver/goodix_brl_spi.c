@@ -199,6 +199,8 @@ static int goodix_spi_probe(struct spi_device *spi)
 	spi->mode            = SPI_MODE_0;
 	spi->bits_per_word   = 8;
 
+	ts_info("spi_info: speed[%d] mode[%d] bits_per_word[%d]",
+			spi->max_speed_hz, spi->mode, spi->bits_per_word);
 	ret = spi_setup(spi);
 	if (ret) {
 		ts_err("failed set spi mode, %d", ret);
@@ -206,11 +208,10 @@ static int goodix_spi_probe(struct spi_device *spi)
 	}
 
 	/* get ic type */
-	ret = goodix_get_ic_type(spi->dev.of_node);
+	ret = goodix_get_ic_type(spi->dev.of_node, &goodix_spi_bus);
 	if (ret < 0)
 		return ret;
 
-	goodix_spi_bus.ic_type = ret;
 	goodix_spi_bus.bus_type = GOODIX_BUS_TYPE_SPI;
 	goodix_spi_bus.dev = &spi->dev;
 	if (goodix_spi_bus.ic_type == IC_TYPE_BERLIN_A)
@@ -260,10 +261,10 @@ static int goodix_spi_remove(struct spi_device *spi)
 
 #ifdef CONFIG_OF
 static const struct of_device_id spi_matchs[] = {
-	{.compatible = "goodix,gt9897S",},
-	{.compatible = "goodix,gt9897T",},
-	{.compatible = "goodix,gt9966S",},
-	{.compatible = "goodix,gt9916S",},
+	{.compatible = "goodix,brl-a",},
+	{.compatible = "goodix,brl-b",},
+	{.compatible = "goodix,brl-d",},
+	{.compatible = "goodix,nottingham",},
 	{},
 };
 #endif

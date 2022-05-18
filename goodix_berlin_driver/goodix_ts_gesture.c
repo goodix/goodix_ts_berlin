@@ -300,9 +300,9 @@ static int gsx_gesture_ist(struct goodix_ts_core *cd,
 	case GOODIX_GESTURE_FOD_UP:
 		if (cd->gesture_type & GESTURE_FOD_PRESS) {
 			ts_info("get FOD-UP gesture");
-			fodx = le16_to_cpup((__le16 *)gs_event.gesture_data);
-			fody = le16_to_cpup((__le16 *)(gs_event.gesture_data + 2));
-			overlay_area = gs_event.gesture_data[4];
+			// fodx = le16_to_cpup((__le16 *)gs_event.gesture_data);
+			// fody = le16_to_cpup((__le16 *)(gs_event.gesture_data + 2));
+			// overlay_area = gs_event.gesture_data[4];
 			input_report_key(cd->input_dev, BTN_TOUCH, 0);
 			input_mt_slot(cd->input_dev, 0);
 			input_mt_report_slot_state(cd->input_dev,
